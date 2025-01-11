@@ -29,3 +29,9 @@ Welcome to the GreenCycles movie rental database project! This repository delves
 * **City:** Stores information about cities.
 * **Country:** Stores information about countries.
 
+**A Note from the Developer**
+
+I enjoyed working on this project and learning about the intricacies of database design and SQL. I hope this repository serves as a valuable resource for others interested in data analysis and database management. 
+
+Feel free to reach out if you have any questions or suggestions. 
+
