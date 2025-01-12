@@ -29,40 +29,42 @@ Welcome to the GreenCycles movie rental database project! 🍿 This repository d
 * **City:** 🏙️ Stores information about cities.
 * **Country:** 🌎 Stores information about countries.
 
-## Importing SQL Data into pgAdmin
+## Importing SQL Data into pgAdmin 📥
 
 This guide outlines the steps to import data from an SQL file into a PostgreSQL database using pgAdmin.
 
-**1. Open pgAdmin**
+**1. Open pgAdmin 🖥️**
 
 * Launch pgAdmin on your system.
 
-**2. Connect to your Server**
+**2. Connect to your Server 🔗**
 
 * In the left-hand pane, expand the "Servers" node.
 * Click on the server you want to connect to.
 
-**3. Select the Database**
+**3. Select the Database 🗄️**
 
 * Expand the "Databases" node under your server.
 * Select the specific database where you want to import the data.
 
-**4. Open Query Tool**
+**4. Open Query Tool 🛠️**
 
 * Right-click on the selected database and choose "Query Tool" from the context menu.
 
-**5. Load the SQL File**
+**5. Load the SQL File 📂**
 
-* In the Query Tool window, click on the "Open File" button (it usually looks like a folder icon).
+* In the Query Tool window, click on the "Open File" button (📁).
 * Browse to and select the `.sql` file containing your insert statements.
 
-**6. Execute the Query**
+**6. Execute the Query ▶️**
 
-* Press F5 or click on the "Execute" button (the play button icon) to run the SQL commands in the file.
+* Press F5 or click on the "Execute" button (▶️) to run the SQL commands in the file.
 
-**7. Verify the Results**
+**7. Verify the Results ✅**
 
-* Once the execution is complete, you can query the relevant tables in your database to verify that the data has been inserted correctly.
+* Once the execution is complete, query the relevant tables in your database to ensure that the data has been inserted correctly.
+
+**🎉 Congratulations! Your data is now imported into PostgreSQL.**
 
 **A Note from the Developer**
 
