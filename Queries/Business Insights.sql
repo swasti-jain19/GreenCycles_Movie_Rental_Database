@@ -37,9 +37,12 @@ JOIN inventory i ON f.film_id = i.film_id
 LEFT JOIN rental r ON i.inventory_id = r.inventory_id
 GROUP BY f.title;
 
--- Average Rental Duration by Category. --
+-- Inventory Turnover Rate --
 
-
+SELECT 
+    ROUND((COUNT(DISTINCT r.rental_id) * 100.0 / COUNT(DISTINCT i.inventory_id)),2) || '%'  AS inventory_turnover_rate
+FROM inventory i
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id;
 
 -- Movies Rented Most Frequently Together. --
 
@@ -80,25 +83,75 @@ LIMIT 1;
 
 -- Sales Trend Over Time. --
 
-
+SELECT DATE_TRUNC('week', p.payment_date) AS week, SUM(p.amount) AS total_revenue
+FROM payment p
+GROUP BY DATE_TRUNC('week', p.payment_date)
+ORDER BY week;
 
 -- Revenue by Store. --
 
-
+SELECT s.store_id, SUM(p.amount) AS total_revenue
+FROM store s
+JOIN staff st ON s.manager_staff_id = st.staff_id
+JOIN payment p ON st.staff_id = p.staff_id
+GROUP BY s.store_id;
 
 -- Most Popular Language for Movies. --
 
+SELECT l.name, COUNT(f.film_id) AS film_count
+FROM language l
+JOIN film f ON l.language_id = f.language_id
+GROUP BY l.name
+ORDER BY film_count DESC
+LIMIT 1;
 
+--  Percentage of Customers Who Have Rented a Specific Movie --
 
--- Revenue by Staff Member. --
-
-
+SELECT f.title, 
+    ROUND((COUNT(DISTINCT r.customer_id) * 100.0 / (SELECT COUNT(*) FROM customer)),2) AS percentage_customers
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+GROUP BY f.title
+ORDER BY percentage_customers desc;
 
 -- Average Number of Rentals per Customer. --
 
-
+SELECT AVG(rental_count) AS avg_rentals_per_customer
+FROM (
+    SELECT c.customer_id, COUNT(*) AS rental_count
+    FROM customer c
+    JOIN rental r ON c.customer_id = r.customer_id
+    GROUP BY c.customer_id
+) AS subquery;
 
 -- Top 5 Actors by Rental Count. --
 
+SELECT a.first_name, a.last_name, COUNT(r.rental_id) AS rental_count
+FROM actor a
+JOIN film_actor fa ON a.actor_id = fa.actor_id
+JOIN film f ON fa.film_id = f.film_id
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+GROUP BY a.first_name, a.last_name
+ORDER BY rental_count DESC
+LIMIT 5;
 
+--  Top 5 Customers by Total Revenue --
 
+SELECT c.customer_id, c.first_name, c.last_name, SUM(p.amount) AS total_revenue
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+JOIN payment p ON r.rental_id = p.rental_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY total_revenue DESC
+LIMIT 5;
+
+-- Percentage of Late Rentals --
+
+SELECT 
+    ROUND((COUNT(DISTINCT CASE WHEN r.return_date > (r.rental_date + (f.rental_duration || ' days')::INTERVAL) THEN r.rental_id END) * 100.0 / 
+     COUNT(DISTINCT r.rental_id)),2) || '%' AS late_rental_percentage
+FROM rental r
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id;
