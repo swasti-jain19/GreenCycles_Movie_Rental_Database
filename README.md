@@ -48,7 +48,7 @@ SELECT DATE_PART('dow', r.rental_date) AS day_of_week, COUNT(*) AS rental_count
 FROM rental r
 GROUP BY DATE_PART('dow', r.rental_date);
 ```
-![Top Paying Roles](assets/1.png)
+![Top Paying Roles](assets/4.png)
 
 ### Key Insights:
 **Peak Rental Days**: The highest number of rentals occur on weekends, suggesting customer preference for entertainment on off-days.
@@ -70,7 +70,7 @@ JOIN rental r ON i.inventory_id = r.inventory_id
 JOIN payment p ON r.rental_id = p.rental_id
 GROUP BY c.name;
 ```
-![Top Paying Roles](assets/1.png)
+![Top Paying Roles](assets/3.png)
 
 ### Key Insights:
 **Top-Grossing Genres**: Action and Sci-Fi categories lead in revenue, showing strong customer interest in high-energy films.
@@ -88,7 +88,7 @@ SELECT EXTRACT(MONTH FROM p.payment_date) AS month, SUM(p.amount) AS total_reven
 FROM payment p
 GROUP BY EXTRACT(MONTH FROM p.payment_date);
 ```
-![Top Paying Roles](assets/1.png)
+![Top Paying Roles](assets/2.png)
 
 ### Key Insights:
 **Seasonal Spikes**: Revenue peaks during summer months and holidays, likely due to increased leisure time.
